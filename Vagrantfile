@@ -1,6 +1,6 @@
 $script = <<-SCRIPT
 echo 'Installing Python for Ansible'
-sudo apt-get  -y install python python-apt-doc python3-apt-dbg python3-apt python-apt-common
+sudo apt-get -y install python python-apt-doc python3-apt-dbg python3-apt python-apt-common python-setuptools python-pip
 SCRIPT
 
 # -*- mode: ruby -*-

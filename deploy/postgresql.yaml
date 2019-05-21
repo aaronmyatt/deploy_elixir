@@ -1,0 +1,22 @@
+---
+- name: install postgresql dependencies
+  apt:
+    name: ['postgresql', 'postgresql-contrib', 'libpq-dev']
+
+- name: install python dependencies
+  pip:
+    name: psycopg2
+    executable: pip2
+
+- name: create postgres user for app
+  postgresql_user:
+    name: "app"
+    password: "{{ lookup('env', 'TECH_WEIGHTS_DB_PASSWORD') }}"
+    role_attr_flags: CREATEDB,SUPERUSER
+  become: yes
+  become_user: postgres
+
+- name: create database
+  postgresql_db: name="tech-weights" encoding="UTF-8"
+  become: yes
+  become_user: postgres

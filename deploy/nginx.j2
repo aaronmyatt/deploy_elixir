@@ -1,0 +1,46 @@
+upstream phoenix {
+    server 127.0.0.1:4000;
+}
+
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name _;
+
+    # Use gzip for all possible files on all possible browsers
+    gzip on;
+    gzip_disable "msie6";
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 3;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.0;
+    gzip_types text/plain text/css text/xml image/x-icon application/json application/x-javascript text/richtext image/svg+xml text/xsd text/xsl application/xml application/xml+rss text/javascript image/png image/gif image/jpeg;
+    # Images and static content are served directly with no logging and longer cache
+    location ~* \.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp)$ {
+        try_files       \$uri =404;
+        access_log        off;
+        log_not_found     off;
+        add_header Pragma "public";
+        add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+        expires 31536000s;
+    }
+
+  location / {
+    allow all;
+    
+    # Proxy Headers
+    proxy_pass http://phoenix;
+    proxy_redirect off;
+    proxy_http_version 1.1;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Cluster-Client-Ip $remote_addr;
+
+    # WebSockets
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+
+  }
+}

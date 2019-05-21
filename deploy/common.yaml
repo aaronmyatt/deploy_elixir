@@ -5,7 +5,7 @@
 
 - name: install packages
   apt:
-    name: ['python3-apt', 'nginx', 'postgresql', 'postgresql-contrib', 'htop', 'iftop', 'iotop', 'sysstat', 'screen', 'curl', 'ntp']
+    name: ['python3-apt', 'nginx', 'htop', 'iftop', 'iotop', 'sysstat', 'screen', 'curl', 'ntp']
 
 - name: disable root login
   replace:

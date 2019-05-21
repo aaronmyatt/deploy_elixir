@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ANSIBLE_CONFIG=./deploy/ansible.cfg ansible-playbook -C -vvvv -i ./deploy/hosts.ini deploy/playbook.yaml

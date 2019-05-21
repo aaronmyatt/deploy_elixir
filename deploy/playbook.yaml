@@ -4,3 +4,5 @@
   remote_user: vagrant
   tasks:
     - import_tasks: common.yaml
+    - import_tasks: postgresql.yaml
+    - import_tasks: nginx.yaml
