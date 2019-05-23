@@ -1,0 +1,26 @@
+---
+- shell: date +%Y%m%d%H%M%S
+  register: timestamp
+
+- debug: msg="{{ansible_user_id}}"
+  become_user: deploy
+  become: yes
+
+- debug: msg="build_{{timestamp.stdout}}"
+
+- name: create builds directory
+  file:
+    path: "/home/{{ansible_user_id}}/builds"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+
+- name: send build to gcp
+  synchronize:
+    src: "../_build"
+    dest: "/home/{{ansible_user_id}}/builds/{{timestamp.stdout}}"
+
+- name: link latest build to users home
+  file:
+    state: link
+    path:  "/home/{{ansible_user_id}}/current_build"
+    src: "/home/{{ansible_user_id}}/builds/{{timestamp.stdout}}"

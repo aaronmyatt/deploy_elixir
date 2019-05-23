@@ -1,8 +1,15 @@
 ---
-- hosts: vagrant
+- hosts: all
   become: true
   remote_user: vagrant
   tasks:
     - import_tasks: common.yaml
+      tags: ['provision']
     - import_tasks: postgresql.yaml
+      tags: ['provision']
     - import_tasks: nginx.yaml
+      tags: ['provision']
+    - import_tasks: build_release.yaml
+      tags: ['build']
+    - import_tasks: deploy_release.yaml
+      tags: ['deploy']

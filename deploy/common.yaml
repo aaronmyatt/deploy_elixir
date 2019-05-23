@@ -5,7 +5,21 @@
 
 - name: install packages
   apt:
-    name: ['python3-apt', 'nginx', 'htop', 'iftop', 'iotop', 'sysstat', 'screen', 'curl', 'ntp']
+    name: ['python3-apt', 'nginx', 'htop', 'iftop', 'iotop', 'sysstat', 'screen', 'curl', 'ntp', 'build-essential', 'git', 'wget', 'libssl-dev', 'xz-utils']
+
+- name: add erlang/elixir repos
+  apt:
+    deb: https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
+
+- name: update && upgrade
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: install erlang/elixir
+  apt:
+    name: ['esl-erlang', 'elixir']
+
 
 - name: disable root login
   replace:
@@ -26,7 +40,7 @@
   user:
     name: deploy
     comment: Deploy User
-    uid: 1002
+    uid: 1111
     create_home: true
     skeleton: /etc/skel
     home: /home/deploy
@@ -53,7 +67,6 @@
     user: deploy
     state: present
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-
 
 - name: enable sysstat
   lineinfile:

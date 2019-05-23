@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ANSIBLE_CONFIG=./deploy/ansible.cfg ansible-playbook -i ./deploy/hosts.ini deploy/playbook.yaml --tags build --limit vagrant

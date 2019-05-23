@@ -1,0 +1,19 @@
+---
+- name: install hex & rebar
+  command: "mix local.{{ item }} --force"
+  with_items:
+    - hex
+    - rebar
+
+- name: build release
+  command: mix release
+  args:
+    chdir: /opt/app
+
+- name: start release
+  command: /opt/app/_build/prod/rel/deploy_elixir/bin/deploy_elixir start
+
+- name: restart nginx
+  systemd:
+    name: nginx.service
+    state: restarted
