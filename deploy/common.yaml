@@ -5,7 +5,7 @@
 
 - name: install packages
   apt:
-    name: ['python3-apt', 'nginx', 'htop', 'iftop', 'iotop', 'sysstat', 'screen', 'curl', 'ntp', 'build-essential', 'git', 'wget', 'libssl-dev', 'xz-utils']
+    name: ['python3-apt', 'nginx', 'htop', 'iftop', 'iotop', 'sysstat', 'screen', 'curl', 'ntp', 'build-essential', 'git', 'wget', 'libssl-dev', 'xz-utils', 'rsync']
 
 - name: add erlang/elixir repos
   apt:

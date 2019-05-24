@@ -10,7 +10,10 @@
 - name: add nginx config
   template:
     src: ./nginx.j2
-    dest: /etc/nginx/sites-available/tech-weights.com
+    dest: "{{ item }}"
+  with_items:
+    - /etc/nginx/sites-available/tech-weights.com
+    - /etc/nginx/sites-enabled/tech-weights.com
 
 - name: add nginx systed config
   template:
