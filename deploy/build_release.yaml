@@ -17,3 +17,8 @@
   systemd:
     name: nginx.service
     state: restarted
+
+- name: bundle sqitch
+  command: sqitch bundle
+  args:
+    chdir: /opt/app

@@ -1,0 +1,4 @@
+---
+- name:  install sqitch
+  apt:
+    name: ["sqitch", "libdbd-pg-perl", "postgresql-client"]

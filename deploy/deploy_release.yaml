@@ -14,13 +14,30 @@
     state: directory
     owner: "{{ ansible_user_id }}"
 
+- name: create migrations directory
+  file:
+    path: "/home/{{ansible_user_id}}/migrations"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+
 - name: send build to gcp
   synchronize:
     src: "../_build"
     dest: "/home/{{ansible_user_id}}/builds/{{timestamp.stdout}}"
+
+- name: send sqitch bundle to gcp
+  synchronize:
+    src: "../bundle"
+    dest: "/home/{{ansible_user_id}}/migrations/{{timestamp.stdout}}"
 
 - name: link latest build to users home
   file:
     state: link
     path:  "/home/{{ansible_user_id}}/current_build"
     src: "/home/{{ansible_user_id}}/builds/{{timestamp.stdout}}"
+
+- name: link latest migration to users home
+  file:
+    state: link
+    path:  "/home/{{ansible_user_id}}/current_migration"
+    src: "/home/{{ansible_user_id}}/migrations/{{timestamp.stdout}}"

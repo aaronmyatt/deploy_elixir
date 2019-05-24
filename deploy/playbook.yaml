@@ -9,6 +9,8 @@
       tags: ['provision']
     - import_tasks: nginx.yaml
       tags: ['provision']
+    - import_tasks: sqitch.yaml
+      tags: ['provision', 'db']
     - import_tasks: build_release.yaml
       tags: ['build']
     - import_tasks: deploy_release.yaml
