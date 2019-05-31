@@ -1,7 +1,7 @@
 ---
 - name: install postgresql dependencies
   apt:
-    name: ['postgresql', 'postgresql-contrib', 'libpq-dev']
+    name: ['postgresql', 'postgresql-contrib', 'libpq-dev', 'postgresql-server-dev-11']
 
 - name: install python dependencies
   pip:
@@ -12,7 +12,6 @@
   postgresql_user:
     name: "app"
     password: "{{ lookup('env', 'TECH_WEIGHTS_DB_PASSWORD') }}"
-    role_attr_flags: CREATEDB,SUPERUSER
   become: yes
   become_user: postgres
 

@@ -3,6 +3,7 @@ echo 'Installing Python for Ansible'
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install python python-apt-doc python3-apt-dbg python3-apt python-apt-common python-setuptools python-pip
+sudo cpan -u
 cat /home/vagrant/.ssh/me.pub >> /home/vagrant/.ssh/authorized_keys
 cat /home/vagrant/.ssh/me.pub >> /root/.ssh/authorized_keys
 echo 'READY!'

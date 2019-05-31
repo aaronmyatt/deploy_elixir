@@ -1,0 +1,30 @@
+- name: clone pgtap
+  git:
+    repo: https://github.com/theory/pgtap.git
+    dest: /opt/pgtap
+    force: yes
+
+- name: install perl dependencies for pgtap
+  command: "{{ item }}"
+  with_items:
+    - "cpan -u"
+    - "cpan TAP::Parser::SourceHandler::pgTAP"
+
+- name: ensure pgtap repo is writable
+  file:
+    mode: '777'
+    path: /opt/pgtap
+    recurse: yes
+
+- name: make pgtap
+  make:
+    chdir: /opt/pgtap
+
+- name: check/install pgtap
+  make:
+    chdir: /opt/pgtap
+    target: "{{ item }}"
+  with_items:
+    - installcheck
+    - install
+  become_user: postgres
