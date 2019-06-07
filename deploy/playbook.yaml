@@ -2,16 +2,25 @@
 - hosts: all
   become: true
   remote_user: vagrant
+  vars:
+    app_version: "{{ lookup('file', '../version') }}"
   tasks:
     - import_tasks: common.yaml
-      tags: ['provision']
+      tags:
+        - provision
     - import_tasks: postgresql.yaml
-      tags: ['provision']
+      tags:
+        - provision
     - import_tasks: nginx.yaml
-      tags: ['provision']
+      tags:
+        - provision
     - import_tasks: sqitch.yaml
-      tags: ['provision', 'db']
+      tags:
+        - provision
+        - db
     - import_tasks: build_release.yaml
-      tags: ['build']
+      tags:
+        - build
     - import_tasks: deploy_release.yaml
-      tags: ['deploy']
+      tags:
+        - deploy

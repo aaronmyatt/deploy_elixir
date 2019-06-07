@@ -4,7 +4,7 @@ defmodule DeployElixir.MixProject do
   def project do
     [
       app: :deploy_elixir,
-      version: "0.1.0",
+      version: (File.read!("./version") |> String.trim),
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps()

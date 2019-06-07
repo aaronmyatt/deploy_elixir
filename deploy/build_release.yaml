@@ -1,9 +1,16 @@
 ---
 - name: install hex & rebar
   command: "mix local.{{ item }} --force"
+  args:
+    chdir: /opt/app
   with_items:
     - hex
     - rebar
+
+- name: install app dependencies
+  command: "mix deps.get --force"
+  args:
+    chdir: /opt/app
 
 - name: build release
   command: mix release

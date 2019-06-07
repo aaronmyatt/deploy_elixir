@@ -1,43 +1,38 @@
 ---
-- shell: date +%Y%m%d%H%M%S
-  register: timestamp
-
-- debug: msg="{{ansible_user_id}}"
-  become_user: deploy
-  become: yes
-
-- debug: msg="build_{{timestamp.stdout}}"
-
 - name: create builds directory
   file:
-    path: "/home/{{ansible_user_id}}/builds"
+    path: "/home/deploy/builds"
     state: directory
-    owner: "{{ ansible_user_id }}"
+    owner: deploy
 
 - name: create migrations directory
   file:
-    path: "/home/{{ansible_user_id}}/migrations"
+    path: "/home/deploy/migrations"
     state: directory
-    owner: "{{ ansible_user_id }}"
+    owner: deploy
 
-- name: send build to gcp
+- name: send build to gcp, when the version is bumped
   synchronize:
-    src: "../_build"
-    dest: "/home/{{ansible_user_id}}/builds/{{timestamp.stdout}}"
+    src: "../_build/prod"
+    dest: "/home/deploy/builds/{{app_version}}"
+    rsync_opts:
+      - "--ignore-existing"
 
-- name: send sqitch bundle to gcp
+- name: send sqitch bundle to gcp, when the version is bumped
   synchronize:
     src: "../bundle"
-    dest: "/home/{{ansible_user_id}}/migrations/{{timestamp.stdout}}"
+    dest: "/home/deploy/migrations/{{app_version}}"
+    rsync_opts:
+      - "--ignore-existing"
 
 - name: link latest build to users home
   file:
     state: link
-    path:  "/home/{{ansible_user_id}}/current_build"
-    src: "/home/{{ansible_user_id}}/builds/{{timestamp.stdout}}"
+    path:  "/home/deploy/current_build"
+    src: "/home/deploy/builds/{{app_version}}"
 
 - name: link latest migration to users home
   file:
     state: link
-    path:  "/home/{{ansible_user_id}}/current_migration"
-    src: "/home/{{ansible_user_id}}/migrations/{{timestamp.stdout}}"
+    path:  "/home/deploy/current_migration"
+    src: "/home/deploy/migrations/{{app_version}}"
