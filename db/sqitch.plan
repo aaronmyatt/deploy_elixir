@@ -2,3 +2,4 @@
 %project=tech-weights
 
 appschema 2019-05-24T17:50:52Z ,,, <vagrant@ubuntu-disco> # Add schema for all tech weights objects.
+user_table [appschema] 2019-06-06T15:53:27Z sagan <sagan@paleblue.local> # general user table
